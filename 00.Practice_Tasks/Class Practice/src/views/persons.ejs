@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All USERS</title>
+    <style>
+        body {
+            background-color: black;
+            padding: 50px;
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .allp {
+            display: flex;
+            gap: 50px;
+            flex-wrap: wrap;
+            margin-top: 50px;
+
+        }
+
+        .onep {
+            display: flex;
+            flex-direction: column;
+            background-color: aqua;
+            border-radius: 30px;
+            gap: 20px;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            border: 2px solid black;
+
+        }
+
+        img {
+            height: 300px;
+            object-fit: cover;
+            border-radius: 30px;
+        }
+
+        button {
+            height: 100px;
+            width: 200px;
+            border-radius: 40px;
+            background-color: green;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <a href="/">
+        <button>Form</button>
+    </a>
+    <div class="allp">
+        <% allPerson.forEach(p=>{ %>
+            <div class="onep">
+
+                <img src="<%=p.image%>" alt="">
+                <h1>
+                    <%=p.username%>
+                </h1>
+            </div>
+            <% }) %>
+    </div>
+</body>
+
+</html>
