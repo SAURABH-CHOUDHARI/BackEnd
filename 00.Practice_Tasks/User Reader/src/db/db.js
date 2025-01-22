@@ -1,13 +1,13 @@
 const mongoose = require("mongoose");
 
-const connectDB = () => {
+const conncect = ()=>{
     mongoose.connect("mongodb://127.0.0.1:27017/kodr")
     .then(()=>{
-        console.log("connected to DB")
+        console.log("Connceted to DataBase")
     })
     .catch((err)=>{
-        console.log(err); 
+        console.log(err)
     })
 }
 
-module.exports =connectDB;
+module.exports = conncect;
