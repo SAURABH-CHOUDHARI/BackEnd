@@ -25,3 +25,8 @@ module.exports.findUserController = async (req, res) => {
     const foundUser = await userModel.findOne({ _id: id })
     res.render("user", {foundUser})
 }
+module.exports.deleteController = async (req, res) => {
+    const {id} = req.body
+    const deleteUser = await userModel.findOneAndDelete({_id:id})
+    res.redirect("users")
+}

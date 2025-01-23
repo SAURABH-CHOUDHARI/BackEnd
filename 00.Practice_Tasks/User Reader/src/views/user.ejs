@@ -4,11 +4,83 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><%= foundUser.name %></title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .profile-container {
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+            width: 100%;
+            max-width: 600px;
+            text-align: center;
+            margin: 20px;
+        }
+
+        .profile-image {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 1.5rem;
+            border: 4px solid #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #1a1a1a;
+            margin: 0 0 0.5rem 0;
+            font-size: 2rem;
+        }
+
+        h2 {
+            color: #4a90e2;
+            margin: 0 0 1rem 0;
+            font-size: 1.2rem;
+            font-weight: normal;
+        }
+
+        h4 {
+            color: #666;
+            margin: 0;
+            line-height: 1.6;
+            font-weight: normal;
+            font-size: 1rem;
+        }
+
+        @media (max-width: 480px) {
+            .profile-container {
+                margin: 1rem;
+                padding: 1.5rem;
+            }
+
+            .profile-image {
+                width: 150px;
+                height: 150px;
+            }
+
+            h1 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
 </head>
 <body>
-    <img src="<%= foundUser.image %>" alt="">
-    <h1><%= foundUser.name %></h1>
-    <h2><%= foundUser.email %></h2>
-    <h4><%= foundUser.bio %></h4>
+    <div class="profile-container">
+        <img class="profile-image" src="<%= foundUser.image %>" alt="Profile picture of <%= foundUser.name %>">
+        <h1><%= foundUser.name %></h1>
+        <h2><%= foundUser.email %></h2>
+        <h4><%= foundUser.bio %></h4>
+    </div>
 </body>
 </html>

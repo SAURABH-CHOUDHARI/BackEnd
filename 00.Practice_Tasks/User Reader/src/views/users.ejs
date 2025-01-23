@@ -5,17 +5,133 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Users</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f0f2f5;
+        }
+
+        .users-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .user-card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: transform 0.2s, box-shadow 0.2s;
+            text-decoration: none;
+            display: block;
+            position: relative;
+        }
+
+        .user-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .user-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .user-info {
+            padding: 15px;
+            text-align: center;
+            position: relative;
+        }
+
+        h1 {
+            margin: 0 0 15px 0;
+            color: #1a1a1a;
+            font-size: 1.2rem;
+        }
+
+        .delete-btn {
+            background-color: #ff4757;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: background-color 0.2s;
+            margin-top: 10px;
+        }
+
+        .delete-btn:hover {
+            background-color: #ff6b81;
+        }
+
+        .delete-btn:active {
+            transform: scale(0.98);
+        }
+
+        /* Prevent the entire card from being clickable over the button */
+        .user-card .delete-btn {
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Create a wrapper for the clickable area */
+        .card-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+
+        @media (max-width: 600px) {
+            body {
+                padding: 10px;
+            }
+
+            .users-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+                gap: 15px;
+                padding: 10px;
+            }
+
+            .user-image {
+                height: 150px;
+            }
+        }
+    </style>
 </head>
 
 <body>
-    <% allUsers.forEach(elem=>{ %>
-        <a href="./users/<%= elem._id  %>">
-            <img src="<%= elem.image %>" alt="">
-            <h1>
-                <%= elem.name %>
-            </h1>
-        </a>
-        <% }) %>
+    <div class="users-grid">
+        <% allUsers.forEach(elem=>{ %>
+            <div class="user-card">
+                <a href="./users/<%= elem._id %>" class="card-content">
+                    <img src="<%= elem.image %>" alt="Profile picture of <%= elem.name %>" class="user-image">
+                    <div class="user-info">
+                        <h1>
+                            <%= elem.name %>
+                        </h1>
+                    </div>
+                </a>
+                <div class="user-info">
+                    <form action="/delete" method="post">
+                        <input type="hidden" value="<%= elem._id %>" name="id" >
+                        <input type="submit" value="Delete" class="delete-btn">
+                    </form>
+                </div>
+            </div>
+            <% }) %>
+    </div>
 </body>
 
 </html>

@@ -4,15 +4,75 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #f0f2f5;
+        }
+
+        form {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #4a90e2;
+            box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
+        }
+
+        input[type="submit"] {
+            background-color: #4a90e2;
+            color: white;
+            border: none;
+            padding: 12px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.2s;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #357abd;
+        }
+
+        ::placeholder {
+            color: #999;
+        }
+
+        @media (max-width: 480px) {
+            form {
+                margin: 1rem;
+                padding: 1rem;
+            }
+        }
+    </style>
 </head>
 <body>
-        <form action="/create" method="post">
-            <input type="text" placeholder="Enter a Name" name="name" required>
-            <input type="text" placeholder="Enter a Email" name="email" required>
-            <input type="text" placeholder="Enter a bio" name="bio" required>
-            <input type="text" placeholder="Enter Image Url" name="image" required>
-            <input type="submit">
-        </form> 
-    
+    <form action="/create" method="post">
+        <input type="text" placeholder="Enter a Name" name="name" required>
+        <input type="email" placeholder="Enter an Email" name="email" required>
+        <input type="text" placeholder="Enter a bio" name="bio" required>
+        <input type="url" placeholder="Enter Image URL" name="image" required>
+        <input type="submit">
+    </form>
 </body>
 </html>
