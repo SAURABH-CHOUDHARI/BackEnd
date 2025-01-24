@@ -70,7 +70,7 @@
     <script>
         async function likePost(postId, button) {
             try {
-                const response = await axios.post('/incLike', { id: postId });
+                const response = await axios.patch('/incLike', { id: postId });
 
                 if (response.data.success) {
                     const likeCountSpan = button.querySelector('.like-count');
@@ -85,11 +85,10 @@
         }
         async function deletePost(postId, button) {
             try {
-                const response = await axios.post('/deletePost', { id: postId });
+                const response = await axios.delete('/deletePost', { params: { id: postId } });
 
                 if (response.data.success) {
-                    // Remove the post element from the DOM
-                    const postElement = button.closest('.group'); // .group is the class of the post container
+                    const postElement = button.closest('.group'); 
                     postElement.remove();
                 } else {
                     alert('Failed to delete the post');

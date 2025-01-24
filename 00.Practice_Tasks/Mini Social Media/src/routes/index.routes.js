@@ -8,7 +8,7 @@ router.post("/createUser",createUserController)
 router.get("/home", homeController)
 router.get("/createPost", postFormController)
 router.post("/createPost",createPostController)
-router.post("/incLike",likeController)
-router.post('/deletePost', deletePostController);
+router.patch("/incLike",likeController)
+router.delete('/deletePost', deletePostController);
 
 module.exports = router;

@@ -52,7 +52,7 @@ module.exports.createPostController = async (req, res) => {
 }
 module.exports.deletePostController = async (req, res) => {
     try {
-        const { id } = req.body;
+        const { id } = req.query;
         const deletedPost = await postModel.findOneAndDelete({ _id: id });
 
         if (!deletedPost) {
