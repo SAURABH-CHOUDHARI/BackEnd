@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gradient-to-br from-gray-50 to-gray-100 min-h-screen p-6 font-sans">
+    <div class="container mx-auto max-w-4xl">
+        <div class="mb-8 flex justify-between items-center">
+            <h1 class="text-2xl font-semibold text-gray-800">Your Feed</h1>
+            <a href="/createPost" class="group">
+                <button
+                    class="bg-black text-white px-6 py-2 rounded-full flex items-center space-x-2 hover:bg-gray-800 transition">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <span>New Post</span>
+                </button>
+            </a>
+        </div>
+
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <% posts.forEach(post=>{ %>
+                <div
+                    class="bg-white rounded-2xl shadow-lg overflow-hidden group border border-gray-200 hover:shadow-xl transition-all duration-300">
+                    <img src="<%=post.img%>" alt="Post Image"
+                        class="w-full h-48 object-cover transition duration-300 group-hover:scale-105 group-hover:brightness-95">
+                    <div class="p-5 space-y-4">
+                        <h4 class="text-lg font-medium text-gray-800 line-clamp-2">
+                            <%=post.cap%>
+                        </h4>
+                        <div class="flex justify-between items-center">
+
+                            <input type="hidden" value="<%=post._id%>" name="id">
+                            <button class="text-gray-600 hover:text-red-500 flex items-center space-x-1 transition"
+                                onclick="likePost('<%= post._id %>', this)">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20"
+                                    fill="currentColor">
+                                    <path fill-rule="evenodd"
+                                        d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z"
+                                        clip-rule="evenodd" />
+                                </svg>
+                                <span class="like-count">
+                                    <%= post.likeCount %>
+                                </span>
+                            </button>
+
+
+                            <button class="text-gray-500 hover:text-red-600 transition"
+                                onclick="deletePost('<%= post._id %>', this)">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                                    stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <% }) %>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+        async function likePost(postId, button) {
+            try {
+                const response = await axios.patch('/incLike', { id: postId });
+
+                if (response.data.success) {
+                    const likeCountSpan = button.querySelector('.like-count');
+                    likeCountSpan.textContent = response.data.likeCount;
+                } else {
+                    alert('Failed to like the post');
+                }
+            } catch (error) {
+                console.error('An error occurred:', error);
+                alert('An error occurred while liking the post');
+            }
+        }
+        async function deletePost(postId, button) {
+            try {
+                const response = await axios.delete('/deletePost', { params: { id: postId } });
+
+                if (response.data.success) {
+                    const postElement = button.closest('.group'); 
+                    postElement.remove();
+                } else {
+                    alert('Failed to delete the post');
+                }
+            } catch (error) {
+                console.error('An error occurred:', error);
+                alert('An error occurred while deleting the post');
+            }
+        }
+    </script>
+
+</body>
+
+</html>
