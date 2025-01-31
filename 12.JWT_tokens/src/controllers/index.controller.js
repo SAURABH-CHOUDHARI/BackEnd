@@ -28,12 +28,11 @@ module.exports.loginUserController = async (req,res) => {
         const token = jwt.sign(
             {
                 _id: user.id,
-                email: user.email,
             },
             process.env.JWT_KEY,
         )
 
-        res.status(200).json({
+        return res.status(200).json({
             token,
             message: "User logged in successfully",
         })
@@ -63,14 +62,13 @@ module.exports.createUserController = async (req,res) => {
             bio,
             password:hashpass
         })
-        res.status(201).json({
+        return res.status(201).json({
             username,
             message: "User is created successfully"
         })
         res.redirect('/users')
     }
     catch(err){
-        // res.send(err.message)
         res.status(400).json({
             message: err.message
         })
