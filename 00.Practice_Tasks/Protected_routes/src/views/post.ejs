@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Post</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 flex items-center justify-center h-screen">
+    <div class="bg-white p-6 rounded-lg shadow-md w-96">
+        <h1 class="text-xl font-bold text-center mb-4">Create a Post</h1>
+        <form action="/createPost" method="post" class="space-y-4">
+            <input type="text" name="img" placeholder="Img URL" required class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <input type="text" name="cap" placeholder="Give a Caption for Post" required class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <input type="submit" value="Post" class="w-full bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 cursor-pointer">
+        </form>
+    </div>
+</body>
+</html>

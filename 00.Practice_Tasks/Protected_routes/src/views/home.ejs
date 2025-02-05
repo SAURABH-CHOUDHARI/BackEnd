@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100">
+    <!-- Navbar -->
+    <nav class="bg-white shadow-md p-4 flex justify-between items-center">
+        <h1 class="text-xl font-bold">Welcome, <%= username %></h1>
+        <a href="/createPost">
+            <button class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">Create Post</button>
+        </a>
+        <form action="/logout" method="post">
+            <button class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600">Log Out</button>
+        </form>
+    </nav>
+    
+    <!-- Posts Section -->
+    <div class="max-w-4xl mx-auto mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <% posts.forEach(post => { %>
+            <div class="bg-white p-4 rounded-lg shadow-md">
+                <img src="<%= post.img %>" alt="Post Image" class="w-full h-48 object-cover rounded-md">
+                <h1 class="mt-2 text-lg font-semibold text-gray-800"><%= post.cap %></h1>
+            </div>
+        <% }) %>
+    </div>
+</body>
+
+</html>
