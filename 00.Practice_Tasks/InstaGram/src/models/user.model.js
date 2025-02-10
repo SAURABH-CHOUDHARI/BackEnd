@@ -14,7 +14,7 @@ const userSchema = new mongoose.Schema({
         unique:true,
         trim:true,
         minLength: [5,"Username must be at least 3 characters long"],
-        maxLength: [50,"Username must be most 20 characters long"]
+        maxLength: [20,"Username must be most 20 characters long"]
     },
     password:{
         type:String
