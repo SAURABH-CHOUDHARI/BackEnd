@@ -1,7 +1,4 @@
 const userModel = require("../models/user.model")
-const bcrypt = require("bcrypt")
-const jwt = require('jsonwebtoken')
-const config = require("../config/config")
 
 module.exports.registerUserController = async (req, res) => {
     try {
@@ -16,29 +13,20 @@ module.exports.registerUserController = async (req, res) => {
         if (!password) {
             return res.status(400).json({ message: "password is required" })
         }
-        const isUserExist = await userModel.findOne({
-            $or: [
-                { username: username },
-                { email: email }
-            ]
-        })
+
+        const isUserExist = userModel.findByEmailOrUsername(email, username)
+
         if (isUserExist) {
             return res.status(400).json({ message: "User already exists" })
         }
-        const hashedPassword = await bcrypt.hash(password, 10)
+        const hashedPassword = await userModel.hashPassword(password)
 
         const user = await userModel.create({
             username,
             email,
             password: hashedPassword
         })
-        const token = jwt.sign({
-            id: user._id,
-            username: user.username,
-            email: user.email
-        },
-            config.JWT_SECRET)
-
+        const token = user.generateToken()
 
         return res.status(201).json({ token, user })
     } catch (err) {
@@ -62,17 +50,13 @@ module.exports.loginUserController = async (req, res) => {
         if (!isUserExist) {
             return res.status(400).json({ message: "Invalid credentials" })
         }
-        const isMatch = await bcrypt.compare(password, isUserExist.password)
+        const isMatch = await userModel.comparePassword(password, isUserExist.password)
 
         if (!isMatch) {
             return res.status(400).json({ message: "Invalid credentials" })
         }
 
-        const token = jwt.sign({
-            id: isUserExist._id,
-            username: isUserExist.username,
-            email: isUserExist.email,
-        }, config.JWT_SECRET)
+        const token = isUserExist.generateToken()
 
         return res.status(200).json({ token, isUserExist })
     } catch (err) {

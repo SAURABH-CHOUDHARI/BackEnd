@@ -1,4 +1,7 @@
 const mongoose =require("mongoose")
+const jwt = require("jsonwebtoken")
+const config  =require('../config/config')
+const bcrypt = require('bcrypt')
 
 const userSchema = new mongoose.Schema({
     username:{
@@ -36,6 +39,34 @@ const userSchema = new mongoose.Schema({
         ref:"user"
     }]
 })
+
+userSchema.methods.generateToken = function () {
+    return jwt.sign({
+        id:this._id,
+        username : this.username,
+        email: this.email,
+    },config.JWT_SECRET)
+}
+
+userSchema.statics.verifyToken = function (token) {
+    return jwt.verify(token, config.JWT_SECRET)
+}
+
+userSchema.statics.hashPassword = async function (password) {
+    return await bcrypt.hash(password,10)
+}
+userSchema.statics.comparePassword = async function (password , hash) {
+    return await bcrypt.compare(password, hash)
+}
+userSchema.statics.findByEmailOrUsername = async function (email ,username) {
+    return await userModel.findOne({
+        $or: [
+            { username: username },
+            { email: email }
+        ]
+    })
+}
+
 
 const userModel = mongoose.model("user",userSchema)
 module.exports = userModel;

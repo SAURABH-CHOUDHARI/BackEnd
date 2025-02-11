@@ -9,7 +9,7 @@ module.exports.authUser = async (req,res,next) => {
         if(!token) {
             return res.status.json({message:"unauthorized"})
         }
-        const decoded = jwt.verify(token , config.JWT_SECRET)
+        const decoded = userModel.verifyToken(token)
 
         const user = await userModel.findOne({
             _id: decoded.id
