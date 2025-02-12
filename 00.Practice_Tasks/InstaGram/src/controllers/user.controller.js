@@ -63,6 +63,8 @@ module.exports.loginUserController = async (req, res) => {
         return res.status(500).json({ message: "Internal server error" })
     }
 }
-module.exports.profileController = (req, res) => {
-    res.send(req.user)
+module.exports.profileController = async (req, res) => {
+    const profile = await userModel.findById(req.user._id).populate("posts").select('-password')
+    
+    res.send(profile)
 }

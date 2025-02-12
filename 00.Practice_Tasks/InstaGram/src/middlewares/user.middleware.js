@@ -7,13 +7,17 @@ module.exports.authUser = async (req,res,next) => {
 
         const token = req.headers.authorization.split(" ")[1]
         if(!token) {
-            return res.status.json({message:"unauthorized"})
+            return res.status(400).json({message:"unauthorized"})
         }
         const decoded = userModel.verifyToken(token)
 
         const user = await userModel.findOne({
             _id: decoded.id
-        }).select('_id username email profileImage');
+        }).select('_id ').lean();
+
+        if(!user){
+            return res.status(400).json({message:"unauthorized"})
+        }
 
         req.user = user
 
