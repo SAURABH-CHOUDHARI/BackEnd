@@ -14,7 +14,7 @@ module.exports.registerUserController = async (req, res) => {
             return res.status(400).json({ message: "password is required" })
         }
 
-        const isUserExist = userModel.findByEmailOrUsername(email, username)
+        const isUserExist = await userModel.findByEmailOrUsername(email, username)
 
         if (isUserExist) {
             return res.status(400).json({ message: "User already exists" })
@@ -64,7 +64,7 @@ module.exports.loginUserController = async (req, res) => {
     }
 }
 module.exports.profileController = async (req, res) => {
-    const profile = await userModel.findById(req.user._id).populate("posts").select('-password')
+    const profile = await userModel.findById(req.user._id).populate("posts").select('-password -_id -email').lean()
     
     res.send(profile)
 }
