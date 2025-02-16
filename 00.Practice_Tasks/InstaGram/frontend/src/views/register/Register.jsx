@@ -1,18 +1,28 @@
 import './Register.css'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 
 
 const Register = () => {
     
-
+    const [isLogin, setIsLogin] = useState("")
     const [ username, setUsername ] = useState("")
     const [ email, setEmail ] = useState("")
     const [ password, setPassword ] = useState("")
     const [ error, setError ] = useState("")
 
     const Navigate = useNavigate() 
+
+    const isUserLoggedIn = () => {
+        const token = localStorage.getItem("token")
+        setIsLogin(token)
+        if (isLogin != null){
+            Navigate("/")
+        }
+    }
+
+    useEffect(()=> {isUserLoggedIn()})
 
 
     function handleSubmit(e) {

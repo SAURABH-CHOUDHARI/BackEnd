@@ -1,14 +1,25 @@
-import { useState } from "react"
+import { useState , useEffect} from "react"
 import "./Login.scss"
 import axios from "axios"
 import { useNavigate } from "react-router-dom"
 
 const Login = () => {
+    const [isLogin, setIsLogin] = useState("")
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [error, setError] = useState('')
 
-    const navigate = useNavigate()
+    const Navigate = useNavigate()
+
+    const isUserLoggedIn = () => {
+        const token = localStorage.getItem("token")
+        setIsLogin(token)
+        if (isLogin != null) {
+            Navigate("/")
+        }
+    }
+
+    useEffect(() => { isUserLoggedIn() })
 
     const handleLogin = (e) => {
         e.preventDefault()
@@ -17,7 +28,7 @@ const Login = () => {
             .then(res => {
                 const data = res.data
                 localStorage.setItem('token', data.token)
-                navigate('/')
+                Navigate('/')
             })
             .catch(err => {
                 if (err.response?.data?.message) {
