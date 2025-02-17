@@ -1,3 +1,4 @@
+import withAuth from "../../componets/WithAuth"
 import axios from "axios"
 import { useEffect, useState } from "react"
 import "./Profile.css"
@@ -45,4 +46,4 @@ const Profile = () => {
     )
 }
 
-export default Profile
+export default withAuth(Profile);

@@ -1,25 +1,16 @@
-import { useState , useEffect} from "react"
+import { useState } from "react"
 import "./Login.scss"
 import axios from "axios"
 import { useNavigate } from "react-router-dom"
+import Dock from '../../componets/ui/Dock'
 
 const Login = () => {
-    const [isLogin, setIsLogin] = useState("")
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [error, setError] = useState('')
 
+
     const Navigate = useNavigate()
-
-    const isUserLoggedIn = () => {
-        const token = localStorage.getItem("token")
-        setIsLogin(token)
-        if (isLogin != null) {
-            Navigate("/")
-        }
-    }
-
-    useEffect(() => { isUserLoggedIn() })
 
     const handleLogin = (e) => {
         e.preventDefault()
@@ -38,6 +29,9 @@ const Login = () => {
                 }
             })
     }
+    const items = [
+        {  label: 'Register', onClick: () => Navigate("/register") },
+    ];
 
     return (
         <div className="login-container">
@@ -63,6 +57,12 @@ const Login = () => {
                 </form>
                 <p className="register-link">Dont have an account? <a href="/register">Register</a></p>
             </div>
+                <Dock
+                    items={items}
+                    panelHeight={68}
+                    baseItemSize={50}
+                    magnification={70}
+                />
         </div>
     )
 }

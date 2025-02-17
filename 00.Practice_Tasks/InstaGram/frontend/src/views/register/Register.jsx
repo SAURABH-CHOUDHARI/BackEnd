@@ -1,28 +1,20 @@
 import './Register.css'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
+import Dock from '../../componets/ui/Dock'
 
 
 const Register = () => {
-    
-    const [isLogin, setIsLogin] = useState("")
-    const [ username, setUsername ] = useState("")
-    const [ email, setEmail ] = useState("")
-    const [ password, setPassword ] = useState("")
-    const [ error, setError ] = useState("")
 
-    const Navigate = useNavigate() 
 
-    const isUserLoggedIn = () => {
-        const token = localStorage.getItem("token")
-        setIsLogin(token)
-        if (isLogin != null){
-            Navigate("/")
-        }
-    }
+    const [username, setUsername] = useState("")
+    const [email, setEmail] = useState("")
+    const [password, setPassword] = useState("")
+    const [error, setError] = useState("")
 
-    useEffect(()=> {isUserLoggedIn()})
+    const Navigate = useNavigate()
+
 
 
     function handleSubmit(e) {
@@ -45,6 +37,9 @@ const Register = () => {
             })
 
     }
+    const items = [
+        { label: 'Login', onClick: () => Navigate("/login") },
+    ];
 
     return (
         <main>
@@ -68,6 +63,12 @@ const Register = () => {
                 {error && <div className="error">{error}</div>}
 
             </section>
+            <Dock
+                items={items}
+                panelHeight={68}
+                baseItemSize={50}
+                magnification={70}
+            />
         </main>
     )
 }
