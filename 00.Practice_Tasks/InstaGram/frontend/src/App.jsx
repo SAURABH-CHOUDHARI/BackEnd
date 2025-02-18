@@ -2,6 +2,7 @@
 import AppRoutes from './Routes/Routes'
 import "./App.css"
 import Noise from './componets/ui/Noise'
+import SplashCursosor from "./componets/ui/SplashCursor"
 
 
 
@@ -17,7 +18,7 @@ const App = () => {
         patternRefreshInterval={2}
         patternAlpha={15}
       />
-      {/* <SplashCursor /> */}
+      {/* <SplashCursosor /> */}
       <AppRoutes />
     </>
   )
