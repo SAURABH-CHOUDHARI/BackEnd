@@ -28,7 +28,7 @@ module.exports.createPostController = async (req, res) => {
         const newPost = await postModel.create({
             media: uploadedMedia.url,
             caption,
-            userId,
+            author: userId,
         });
 
         await UserModel.findByIdAndUpdate(userId, {

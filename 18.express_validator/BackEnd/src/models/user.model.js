@@ -25,6 +25,10 @@ const userSchema = new mongoose.Schema({
         type: String,
         select: false,
     },
+    posts:[{
+        type: mongoose.Schema.Types.ObjectId,
+        ref:"post"
+    }]
 })
 
 userSchema.statics.hashPassword = async (password) => {
