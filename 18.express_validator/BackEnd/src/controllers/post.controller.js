@@ -1,5 +1,6 @@
 const postModel = require("../models/post.model");
 const UserModel = require("../models/user.model");
+const Post = require("../models/post.model");
 const { uploadBufferStream } = require("../services/images.cdn");
 
 module.exports.createPostController = async (req, res) => {
@@ -39,5 +40,26 @@ module.exports.createPostController = async (req, res) => {
     } catch (error) {
         console.error("Error creating post:", error);
         res.status(500).json({ message: "Internal Server Error" });
+    }
+};
+
+
+
+module.exports.feedController = async (req, res) => {
+    try {
+        const cursor = req.query.cursor || null; 
+        const limit = 15; 
+
+        const posts = await Post.getRecentPosts(cursor, limit);
+
+        const nextCursor = posts.length > 0 ? posts[posts.length - 1].createdAt : null;
+
+        res.status(200).json({
+            success: true,
+            posts,
+            nextCursor 
+        });
+    } catch (error) {
+        res.status(500).json({ success: false, error: error.message });
     }
 };
