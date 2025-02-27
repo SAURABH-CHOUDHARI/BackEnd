@@ -1,5 +1,4 @@
 const ImageKit = require("imagekit");
-const { PassThrough } = require("stream");
 const config = require("../config/config");
 
 const imagekit = new ImageKit({
@@ -8,22 +7,4 @@ const imagekit = new ImageKit({
     urlEndpoint: config.IMAGEKIT_URL_ENDPOINT,
 });
 
-const uploadBufferStream = async (fileBuffer, fileName) => {
-    try {
-        const passThroughStream = new PassThrough();
-        passThroughStream.end(fileBuffer); 
-
-        const result = await imagekit.upload({
-            file: passThroughStream, 
-            fileName: fileName,
-            folder: "/instagram",
-        });
-
-        return result; 
-    } catch (error) {
-        console.error("Error uploading to ImageKit:", error);
-        throw new Error("Image upload failed");
-    }
-};
-
-module.exports = { uploadBufferStream };
+module.exports = imagekit;

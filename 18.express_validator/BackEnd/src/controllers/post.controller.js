@@ -1,38 +1,20 @@
 const postModel = require("../models/post.model");
 const UserModel = require("../models/user.model");
-const Post = require("../models/post.model");
-const { uploadBufferStream } = require("../services/images.cdn");
 
 module.exports.createPostController = async (req, res) => {
     try {
-        const userId = req.user._id;
-        
-
-        if (!req.file) {
-            return res.status(400).json({ message: "Media file is required" });
-        }
-
-        const fileBuffer = req.file.buffer;
-        const fileName = req.file.originalname;
-        const uploadedMedia = await uploadBufferStream(fileBuffer, fileName);
-
-
-        if (!uploadedMedia?.url) {
-            return res.status(500).json({ message: "Failed to upload media" });
-        }
-
         const { caption } = req.body;
         if (!caption) {
             return res.status(400).json({ message: "Caption required" });
         }
 
         const newPost = await postModel.create({
-            media: uploadedMedia.url,
+            media: req.body.image.url,
             caption,
-            author: userId,
+            author: req.user._id,
         });
 
-        await UserModel.findByIdAndUpdate(userId, {
+        await UserModel.findByIdAndUpdate(req.user._id, {
             $push: { posts: newPost._id },
         });
 
@@ -50,7 +32,7 @@ module.exports.feedController = async (req, res) => {
         const cursor = req.query.cursor || null; 
         const limit = 15; 
 
-        const posts = await Post.getRecentPosts(cursor, limit);
+        const posts = await postModel.getRecentPosts(cursor, limit);
 
         const nextCursor = posts.length > 0 ? posts[posts.length - 1].createdAt : null;
 
