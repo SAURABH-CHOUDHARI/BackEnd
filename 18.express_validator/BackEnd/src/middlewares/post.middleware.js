@@ -37,7 +37,7 @@ module.exports.imagekitUpload = async (req, res, next) => {
             fileName: new mongoose.Types.ObjectId().toString(),
             isPublished: true,
             isPrivateFile: false,
-            folder: "/uploads",
+            folder: "/instagram",
         });
 
         req.body.image = file; 
