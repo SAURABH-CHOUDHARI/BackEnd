@@ -4,7 +4,6 @@ const UserModel = require("../models/user.model");
 module.exports.createPostController = async (req, res) => {
     try {
         const { caption } = req.body;
-        console.log(req.body.image)
         if (!caption) {
             return res.status(400).json({ message: "Caption required" });
         }
